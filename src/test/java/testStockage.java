@@ -39,6 +39,12 @@ public class testStockage {
 	}
 	
 	@Test
+	public void testINCR() {
+		store.SET("test","11");
+		assertEquals("test INCR", "[12]", store.INCR("test"));
+	}
+	
+	@Test
 	public void testDEL() {
 		store.SET("test","a b c d");
 		assertEquals("test DEL", "Success !!!", store.DEL("test"));

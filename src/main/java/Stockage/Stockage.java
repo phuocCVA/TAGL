@@ -104,6 +104,37 @@ public class Stockage {
 		return valeurs;
 	}
 	
+	
+	/**
+	 * Atomically increment a number stored at a given key
+	 * @param cle
+	 * @return
+	 */
+	public String INCR(String cle){
+		String resultat = "";
+		if(!cle.equals("")){
+			if(store.containsKey(cle)){
+				String v = String.valueOf(store.get(cle).getFirst());
+				try{
+					int x = Integer.parseInt(v);
+					x+=1;
+					SET(cle,String.valueOf(x));
+					
+				}catch(NumberFormatException x){
+					throw x;
+				}
+				resultat = store.get(cle).toString();
+			}
+			else{
+				SET(cle,"1");
+				resultat = store.get(cle).toString();
+				}
+			
+		}else{
+			resultat = ("La cle est null !!!");
+		}
+		return resultat;
+	}
 	/**
 	 * delete a given key and associated value
 	 * @param cle
