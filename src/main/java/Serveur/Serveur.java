@@ -52,9 +52,16 @@ public class Serveur {
 		        				resultat = store.SET(cle, valeur);
 		        			}
 		        			break;
-	
+		        			
 		        		case("SETNX"):
-		        			resultat = store.SETNX(cle, valeurs);
+		        			for (int i=2;i<listOfInput.length;i++){
+		        				String valeur = listOfInput[i];
+		        				resultat = store.SETNX(cle, valeur);
+		        			}
+		        			break;
+	
+		        		case("SETX"):
+		        			resultat = store.SETX(cle, valeurs);
 		        			break;
 	
 		        		case("DEL"):
@@ -96,7 +103,7 @@ public class Serveur {
 		        			break;
 	
 		        		case("LRANGE"):
-		        			//resulat = store.LRANGE(cle, valeurs[0], valeurs[1]);
+		        			resultat = store.LRANGE(cle,valeurs.get(0),valeurs.get(1));
 		        			break;
 
 	        			default:

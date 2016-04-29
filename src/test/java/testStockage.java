@@ -19,11 +19,17 @@ public class testStockage {
 
 	@Test
 	public void testSETNX() {
+		store.SET("test","a");
+		assertEquals("test SETNX", "La cle existe deja !!!",store.SETNX("test","b"));
+	}
+	
+	@Test
+	public void testSETX() {
 		list.clear();
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		assertEquals("test SETNX", "Success !!!",store.SETNX("test",list));
+		assertEquals("test SETX", "Success !!!",store.SETX("test",list));
 	}
 
 	@Test
@@ -44,7 +50,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test RPUSH", "[a, b, c, d]", store.RPUSH("test","d"));
 	}
 	
@@ -54,7 +60,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test LPUSH", "[d, a, b, c]", store.LPUSH("test","d"));
 	}
 	
@@ -84,7 +90,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test get", "[b, c]", store.LPOP("test"));
 	}
 	
@@ -94,7 +100,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test get", "[a, b]", store.RPOP("test"));
 	}
 	
@@ -104,7 +110,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test get", "[a, b]", store.LRANGE("test","1","2"));
 	}
 	
@@ -114,7 +120,7 @@ public class testStockage {
 		list.add("a");
 		list.add("b");
 		list.add("c");
-		store.SETNX("test",list);
+		store.SETX("test",list);
 		assertEquals("test get size of the list", "La liste test a 3 elements", store.LLEN("test"));
 	}
 }

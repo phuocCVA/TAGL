@@ -15,7 +15,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * Store the value to the key
 	 * @param cle
 	 * @param valeur
 	 */
@@ -39,11 +39,12 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * Set a list of value to the key
 	 * @param cle
 	 * @param valeur
+	 * @return
 	 */
-	public String SETNX (String cle, LinkedList<String> valeur){
+	public String SETX (String cle, LinkedList<String> valeur){
 		String res = "";
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
@@ -58,7 +59,28 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * Store the value to the key if the key is not exists
+	 * @param cle
+	 * @param valeur
+	 */
+	public String SETNX (String cle, String valeur){
+		String res = "";
+		if(!cle.equals("")){
+			if(store.containsKey(cle)){
+				res = ("La cle existe deja !!!");
+			}
+			else{
+				LinkedList<String> valeurs = new LinkedList<String>();
+				valeurs.add(valeur);
+				store.put(cle, valeurs);
+				res = ("Success !!!");
+			}
+		}
+		return res;
+	}
+	
+	/**
+	 * Get values of the key
 	 * @param cle
 	 * @return
 	 */
@@ -83,7 +105,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * delete a given key and associated value
 	 * @param cle
 	 */
 	public String DEL(String cle){
@@ -101,7 +123,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * puts the new value at the start of the list.
 	 * @param cle
 	 * @param valeur
 	 * @return
@@ -125,7 +147,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * puts the new value at the end of the list.
 	 * @param cle
 	 * @param valeurs
 	 */
@@ -148,7 +170,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * puts a list of new values at the start of the list.
 	 * @param cle
 	 * @param valeur
 	 */
@@ -171,7 +193,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * puts a list of new values at the end of the list.
 	 * @param cle
 	 * @param valeurs
 	 */
@@ -194,7 +216,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * returns the current length of the list.
 	 * @param cle
 	 * @return
 	 */
@@ -204,7 +226,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * removes the first element from the list and returns it.
 	 * @param cle
 	 * @return
 	 */
@@ -225,7 +247,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * removes the last element from the list and returns it.
 	 * @param cle
 	 * @return
 	 */
@@ -246,7 +268,7 @@ public class Stockage {
 	}
 	
 	/**
-	 * 
+	 * gives a subset of the list
 	 * @param cle
 	 * @return
 	 */
