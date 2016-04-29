@@ -3,14 +3,14 @@ package Stockage;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class Stokage {
+public class Stockage {
 	
 	public static final int MAX = 10;
 	
 	public Hashtable<String, LinkedList<String>> store;
 	
 	// Constructor
-	public Stokage(){
+	public Stockage(){
 		if(store == null) store = new Hashtable<String, LinkedList<String>>();
 	}
 	
@@ -19,15 +19,17 @@ public class Stokage {
 	 * @param cle
 	 * @param valeur
 	 */
-	public String SET (String cle, LinkedList<String> valeur){
+	public String SET (String cle, String valeur){
 		String res = "";
 		if(!cle.equals("")){			
 			if(store.containsKey(cle)){
 				store.get(cle).clear();
-				store.get(cle).addAll(valeur);
+				store.get(cle).add(valeur);
 			}
 			else{
-				store.put(cle, valeur);
+				LinkedList<String> valeurs = new LinkedList<String>();
+				valeurs.add(valeur);
+				store.put(cle, valeurs);
 			}
 			res = "Success !!!" ;
 		}
@@ -49,7 +51,7 @@ public class Stokage {
 			}
 			else{
 				store.put(cle, valeur);
-				res = ("Sucess !!!");
+				res = ("Success !!!");
 			}
 		}
 		return res;
@@ -84,7 +86,7 @@ public class Stokage {
 	 * 
 	 * @param cle
 	 */
-	public String DEL (String cle){
+	public String DEL(String cle){
 		String res = "";
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
@@ -98,24 +100,24 @@ public class Stokage {
 		return res;
 	}
 	
-	
 	/**
 	 * 
 	 * @param cle
 	 * @param valeur
+	 * @return
 	 */
-	public String LPUSH(String cle, LinkedList<String> valeur){
+	public String LPUSH(String cle, String valeur){
 		String res = "";
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
-				for(int i=valeur.size();i>0;i--){
-					store.get(cle).addFirst(valeur.get(i));
-				}
+				store.get(cle).addFirst(valeur);
 			}
 			else{
-				store.put(cle, valeur);
+				LinkedList<String> valeurs = new LinkedList<String>();
+				valeurs.add(valeur);
+				store.put(cle, valeurs);
 			}
-			res = "Success !!!";
+			res = store.get(cle).toString();
 		}else{
 			res = ("La cle est null !!!");
 		}
@@ -127,18 +129,64 @@ public class Stokage {
 	 * @param cle
 	 * @param valeurs
 	 */
-	public String RPUSH(String cle, LinkedList<String> valeurs){
+	public String RPUSH(String cle,String valeur){
 		String res = "";
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
-				for(int i=0;i<valeurs.size();i--){
+				store.get(cle).addLast(valeur);
+			}
+			else{
+				LinkedList<String> valeurs = new LinkedList<String>();
+				valeurs.add(valeur);
+				store.put(cle, valeurs);
+			}
+			res = store.get(cle).toString();
+		}else{
+			res = ("La cle est null !!!");
+		}
+		return res;
+	}
+	
+	/**
+	 * 
+	 * @param cle
+	 * @param valeur
+	 */
+	public String LPUSHX(String cle, LinkedList<String> valeur){
+		String res = "";
+		if(!cle.equals("")){
+			if(store.containsKey(cle)){
+				for(int i=valeur.size()-1;i>=0;i--){
+					store.get(cle).addFirst(valeur.get(i));
+				}
+			}
+			else{
+				store.put(cle, valeur);
+			}
+			res = store.get(cle).toString();
+		}else{
+			res = ("La cle est null !!!");
+		}
+		return res;
+	}
+	
+	/**
+	 * 
+	 * @param cle
+	 * @param valeurs
+	 */
+	public String RPUSHX(String cle, LinkedList<String> valeurs){
+		String res = "";
+		if(!cle.equals("")){
+			if(store.containsKey(cle)){
+				for(int i=0;i<valeurs.size();i++){
 					store.get(cle).addLast(valeurs.get(i));
 				}
 			}
 			else{
 				store.put(cle, valeurs);
 			}
-			res = "Success !!!";
+			res = store.get(cle).toString();
 		}else{
 			res = ("La cle est null !!!");
 		}
@@ -151,7 +199,7 @@ public class Stokage {
 	 * @return
 	 */
 	public String LLEN(String cle){
-		String result = "La liste " + cle + " a " + store.get(cle).size() + "elements";
+		String result = "La liste " + cle + " a " + store.get(cle).size()+" elements";
 		return result;
 	}
 	
@@ -165,7 +213,7 @@ public class Stokage {
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
 				store.get(cle).removeFirst();
-				res = ("Success !!!");
+				res = store.get(cle).toString();
 			}
 			else{
 				res = ("La cle n'exsite pas !!!");
@@ -186,7 +234,7 @@ public class Stokage {
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
 				store.get(cle).removeLast();
-				res = "Success !!!";
+				res = store.get(cle).toString();
 			}
 			else{
 				res = ("La cle n'exsite pas !!!");
@@ -203,15 +251,15 @@ public class Stokage {
 	 * @return
 	 */
 	public String LRANGE(String cle, String begin, String end){
-		String valeurs = "";
+		 LinkedList<String> valeurs = new  LinkedList<String>();
 	    
-		int b = Integer.parseInt(begin);
-		int e = Integer.parseInt(end);
+		int b = Integer.parseInt(begin)-1;
+		int e = Integer.parseInt(end)-1;
 		
 		if(!cle.equals("")){
 			if(store.containsKey(cle)){
 				for(int i=b; i<=e; i++){
-					valeurs += store.get(cle).get(i)+" ";
+					valeurs.add(store.get(cle).get(i));
 				}
 			}
 			else{
@@ -221,6 +269,6 @@ public class Stokage {
 			System.out.println("La cle est null !!!");
 		}
 
-		return valeurs;
+		return valeurs.toString();
 	}
 }
